@@ -25,7 +25,7 @@ class MobileNet(nn.Module):
         super(MobileNet, self).__init__()
 
         if channel_multiplier <= 0:
-            raise ValueError('channel_multiplier must be >= 0')
+            raise ValueError('channel_multiplier must be > 0')
 
         def conv_bn_relu(n_ifm, n_ofm, kernel_size, stride=1, padding=0, groups=1):
             return [
@@ -58,13 +58,13 @@ class MobileNet(nn.Module):
             depthwise_conv(self.channels[4], self.channels[4], 1),
             depthwise_conv(self.channels[4], self.channels[5], 2),
             depthwise_conv(self.channels[5], self.channels[5], 1),
-            nn.AvgPool2d(7),
+            nn.AdaptiveAvgPool2d((1, 1)),
         )
         self.fc = nn.Linear(self.channels[5], 1000)
 
     def forward(self, x):
         x = self.model(x)
-        x = x.flatten(x, 1)
+        x = x.flatten(1)
         x = self.fc(x)
         return x
 

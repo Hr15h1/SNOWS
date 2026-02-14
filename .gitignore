@@ -1,0 +1,3 @@
+venv_run/
+venv_new/
+resnet20_cifar10.pt

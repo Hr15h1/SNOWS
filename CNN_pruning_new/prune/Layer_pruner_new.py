@@ -1,4 +1,5 @@
 from .utils import *
+import torch
 import time
 import torch.nn as nn
 from torch.utils.data import DataLoader
@@ -172,7 +173,7 @@ class LayerPruner:
             if (i + 1) % self.nsamples == 0:
                 break
 
-        xdata2 = copy.deepcopy(xdata)
+        xdata2 = xdata.clone().to(memory_device)
         i_w = 0
         i_layer = 0
         block_list = get_blocks(copy.deepcopy(self.model))
@@ -641,8 +642,9 @@ class LayerPruner:
                 else:
                     w_sol = w_var
 
-                # w_sol = torch.tensor(w_sol).to(memory_device)
-
+                if not isinstance(w_sol, torch.Tensor):
+                    w_sol = torch.tensor(w_sol)
+                w_sol = w_sol.to(memory_device)
                 w_sol_shape = w_sol.shape
                 if w_sol_shape == param_size:
                     w_output = w_sol.detach().cpu().numpy()
