@@ -153,5 +153,5 @@ class ResNet(nn.Module):
     def forward(self, x):
         return self._forward_impl(x)
 
-def resnet50(pretrained=False, progress=True, **kwargs):
+def resnet50(pretrained=True, progress=True, **kwargs):
     return ResNet(Bottleneck, [3, 4, 6, 3], **kwargs)

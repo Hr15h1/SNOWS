@@ -20,7 +20,7 @@ from .SNOWS import (
     MP_unstr
 )
 
-from helpers import extract_conv_layer, get_block_number_for_param
+from .helpers import extract_conv_layer, get_block_number_for_param
 
 
 class LayerPruner:

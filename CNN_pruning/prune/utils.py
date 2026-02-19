@@ -15,12 +15,14 @@ IHTPATH = './Lagrangian-Heuristic'
 sys.path.append(IHTPATH)
 
 
-def model_factory(arch,dset_path,pretrained=True, force_model_path = False, model_path = '../WoodFisher/checkpoints/resnet20_cifar10.pt'):
+def model_factory(arch,dset_path,pretrained=False, force_model_path = False, model_path = '../WoodFisher/checkpoints/resnet20_cifar10.pt'):
 
     if arch == 'resnet20_cifar10':
 
         if not force_model_path:
             new_state_trained = torch.load('./checkpoints/resnet20_cifar10.pt', map_location=torch.device('cpu'))
+            # print("Loaded pretrained model from default path './checkpoints/resnet20_cifar10.pt'")
+            # print("Model keys:", new_state_trained.keys())
         else:
             new_state_trained = torch.load(model_path, map_location=torch.device('cpu'))
         
@@ -254,6 +256,10 @@ def imagenet_get_datasets(data_dir):
 @torch.no_grad()
 def get_pvec(model, params):
     state_dict = model.state_dict()
+    print("Extracting parameter vector for the following parameters:")
+    for p in params:
+        print(p)
+    print("Total number of parameters in pvec:", sum(state_dict[p].numel() for p in params))
     return torch.cat([
         state_dict[p].reshape(-1) for p in params
     ])

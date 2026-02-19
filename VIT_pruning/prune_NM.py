@@ -18,7 +18,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--arch', type=str, default='resnet20', help='Model architecture')
     parser.add_argument('--dset', type=str, default='cifar10', help='Dataset name')
-    parser.add_argument('--num_workers', type=int, default=40, help='Number of DataLoader workers')
+    parser.add_argument('--num_workers', type=int, default=10, help='Number of DataLoader workers')
     parser.add_argument('--exp_name', type=str, default='', help='Experiment name')
     parser.add_argument('--exp_id', type=str, default='', help='Experiment ID')
     parser.add_argument('--test_batch_size', type=int, default=500, help='Batch size for testing')

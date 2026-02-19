@@ -64,7 +64,7 @@ class MobileNet(nn.Module):
 
     def forward(self, x):
         x = self.model(x)
-        x = x.flatten(x, 1)
+        x = x.flatten(1)
         x = self.fc(x)
         return x
 

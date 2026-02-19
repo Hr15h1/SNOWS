@@ -170,7 +170,8 @@ class LayerPruner:
 
                 elif self.algo == "SNOWS":
 
-                    w_var = torch.tensor(w_var).to(device)
+                    # w_var = torch.tensor(w_var).to(device)
+                    w_var = w_var.detach().clone()
                     prune_thirds = [0, 1, 2]
                     w_sol = make_nm_sparse(w_var, N, M, prune_thirds)
 

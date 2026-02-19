@@ -4,7 +4,7 @@ import torch.nn as nn
 from collections import OrderedDict
 from joblib import delayed, Parallel
 import itertools
-from helpers import get_submodel, replace_func
+from .helpers import get_submodel, replace_func
 from torch.autograd import Variable, grad
 
 def count_operations_in_block(block_tuple, cur_module=None):
@@ -910,7 +910,7 @@ def MP_unstr(w_var, p):
 
 #     return W_proj
 
-def prune_and_update(w_var, pairs, groups, total_pairs, elimination_fraction=0.2, abs_largest = True):
+# def prune_and_update(w_var, pairs, groups, total_pairs, elimination_fraction=0.2, abs_largest = True):
 #     """
 #     Prunes the smallest non-zero elements across all (output channel, group_index) pairs
 #     and returns the pruned weights, updated pairs, and updated mask.

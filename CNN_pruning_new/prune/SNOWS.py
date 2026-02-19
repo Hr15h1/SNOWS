@@ -4,7 +4,7 @@ import torch.nn as nn
 from collections import OrderedDict
 from joblib import delayed, Parallel
 import itertools
-from helpers import get_submodel, replace_func
+from .helpers import get_submodel, replace_func
 from torch.autograd import Variable, grad
 
 def count_operations_in_block(block_tuple, cur_module=None):
@@ -212,6 +212,9 @@ def solve_for_W_given_Z(Z,
             full_newton_step = full_newton_step.to(device, non_blocking=True)
 
             newton_step_norm = torch.norm(full_newton_step).item()
+
+            print("Newton step norm: ", torch.norm(full_newton_step).item())
+            print("weight norm: ", torch.norm(W).item())
 
             # Delete variables to free memory before Armijo backtracking
             del xdata_batch, ydata_dense, ydata_pruned, total_loss
@@ -442,7 +445,7 @@ def hessian_vector_product(grad_W, W, vector, mask):
 #     # Return only the elements corresponding to the mask
 #     return hvp[mask]
 
-def hessian_vector_product_chunks(grad_W, W, vector, mask, max_chunk_size=1e5):
+def hessian_vector_product_chunks(grad_W, W, vector, mask, max_chunk_size=100000):
 
     device = W.device
 
@@ -469,8 +472,8 @@ def hessian_vector_product_chunks(grad_W, W, vector, mask, max_chunk_size=1e5):
 
 
         chunk_hvp = torch.autograd.grad(
-            inputs = (grad_W * full_vector * chunk_mask).sum(),
-            outputs = W,
+            outputs = (grad_W * full_vector * chunk_mask).sum(),
+            inputs = W,
             retain_graph=True,
             create_graph=False
         )[0]
@@ -970,7 +973,7 @@ def MP_unstr(w_var, p):
 
 #     return W_proj
 
-def prune_and_update(w_var, pairs, groups, total_pairs, elimination_fraction=0.2, abs_largest = True):
+# def prune_and_update(w_var, pairs, groups, total_pairs, elimination_fraction=0.2, abs_largest = True):
 #     """
 #     Prunes the smallest non-zero elements across all (output channel, group_index) pairs
 #     and returns the pruned weights, updated pairs, and updated mask.

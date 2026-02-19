@@ -23,7 +23,7 @@ def parse_args():
     # Basic arguments
     parser.add_argument('--arch', type=str, default='resnet20', help='Model architecture.')
     parser.add_argument('--dset', type=str, default='cifar10', help='Dataset name.')
-    parser.add_argument('--num_workers', type=int, default=40, help='Number of DataLoader workers.')
+    parser.add_argument('--num_workers', type=int, default=8, help='Number of DataLoader workers.')
     parser.add_argument('--exp_name', type=str, default='', help='Experiment name for bookkeeping.')
     parser.add_argument('--exp_id', type=str, default='', help='Experiment ID for bookkeeping.')
     parser.add_argument('--shuffle_train', type=lambda x: (str(x).lower() == 'true'), default=False,

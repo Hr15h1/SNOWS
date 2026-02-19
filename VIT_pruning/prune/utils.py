@@ -16,7 +16,7 @@ from torchvision.datasets import (
 )    
 import torch.nn as nn
 from PIL import Image
-from transformers import ViTFeatureExtractor
+from transformers import AutoFeatureExtractor as ViTFeatureExtractor
 
 def flatten_tensor_list(tensors):
     flattened = []
