@@ -6,3 +6,4 @@ imagenet-mini/
 checkpoints/
 Pruned_models/
 data/
+__pycache__

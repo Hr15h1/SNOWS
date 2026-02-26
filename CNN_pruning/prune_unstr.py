@@ -170,6 +170,7 @@ def main(**kwargs):
 
     pruner.scaled = True
 
+    start_time = time.time()
     # Prune (note: target_sparsity & max_layer_sparsity as percentages)
     model_update, accuracies, losses, layer_times, layer_wise_loss, layer_wise_W, layer_wise_size = pruner.prune_unstructured_global(
         target_sparsity=target_sparsity * 100,
@@ -191,8 +192,11 @@ def main(**kwargs):
     # Save pickled results
     os.makedirs("./Results", exist_ok=True)
     result_filename = f"./Results/{args.arch}_{args.algo}_{target_sparsity}_{max_layer_sparsity}_results.pickle"
+    total_time = time.time() - start_time
+    
+    print(f"Total time for the entire process: {total_time:.2f} seconds")
     with open(result_filename, 'wb') as f:
-        pickle.dump({'accuracies': accuracies, 'losses': losses}, f)
+        pickle.dump({'accuracies': accuracies, 'losses': losses, 'total_time': total_time}, f)
 
     # Save the pruned model
     os.makedirs("./Pruned_models", exist_ok=True)

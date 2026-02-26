@@ -1,0 +1,248 @@
+N:M pruning                        
+___________________               
+batch_size = 32                   
+ngrads=3000                        
+N:M = 1:4                                             
+___________________                  
+Resnet20 on CIFAR10                  
+Initial Acc = 92.59                  
+
+k = 10
+pruning time(seconds) = 377.41
+Final Acc = 79.98%
+
+k = 20
+pruning time(seconds) = 693.08
+Final Acc = 81.39%
+
+k = 40
+pruning time(seconds) = 1451.82
+Final Acc = 84.55%
+
+k = 100
+pruning time(seconds) = 1427.28
+Final Acc = 84.22%
+
+k = 140
+pruning time(seconds) = 1448.35
+Final Acc = 84.48%
+___________________
+
+
+batch_size = 32
+ngrads=3000
+N:M = 2:4
+___________________
+Resnet20 on CIFAR10
+Initial Acc = 92.59
+___________________
+
+k = 10
+pruning time(seconds) = 410.39
+Final Acc = 90.6%
+
+k = 20
+pruning time(seconds) = 872.36
+Final Acc = 90.56%
+
+k = 40
+pruning time(seconds) = 806.61
+Final Acc = 91.7%
+
+k = 100
+pruning time(seconds) = 797.74
+Final Acc = 91.72%
+
+k = 140
+pruning time(seconds) = 821.03
+Final Acc = 91.74%
+
+___________________
+batch_size = 32
+ngrads = 3000
+N:M = 1:4
+___________________
+Resnet50 on CIFAR10
+Initial Acc = 94.64%
+___________________
+
+k = 10
+pruning time(seconds) = 847.47
+Final Acc = 94.33%
+
+k = 20
+pruning time(seconds) = 980.47
+Final Acc = 94.32%
+
+k = 40
+pruning time(seconds) = 1012.68
+Final Acc = 94.4%
+
+k = 100
+pruning time(seconds) = 1998.45
+Final Acc = 94.42%
+
+k = 140
+pruning time(seconds) = 2011.66
+Final Acc = 94.42%
+
+___________________
+batch_size = 32
+ngrads = 3000
+N:M = 2:4
+___________________
+Resnet50 on CIFAR10
+Initial Acc = 94.64%
+___________________
+
+k = 10
+pruning time(seconds) = 775.13
+Final Acc = 94.5%
+
+k = 20
+pruning time(seconds) = 934.08
+Final Acc = 94.53%
+
+k = 40
+pruning time(seconds) = 1123.82
+Final Acc = 94.49%
+
+k = 100
+pruning time(seconds) = 1364.78
+Final Acc = 94.54%
+
+k = 140
+pruning time(seconds) = 1394.83
+Final Acc = 94.54
+
+
+___________________
+batch_size = 32
+ngrads = 3000
+N:M = 1:4
+___________________
+Resnet50 on CIFAR100
+Initial Acc = 77.42%
+___________________
+
+k = 10
+pruning time(seconds) = 1079.49
+Final Acc = 72.83%
+
+k = 20
+pruning time(seconds) = 1701.55
+Final Acc = 74.31%
+
+k = 40
+pruning time(seconds) = 2102.33
+Final Acc = 74.61
+
+k = 100
+pruning time(seconds) = 2891.14
+Final Acc = 75.19%
+
+k = 140
+pruning time(seconds) = 2892
+Final Acc = 75.19
+
+___________________
+batch_size = 32
+ngrads = 3000
+N:M = 2:4
+___________________
+Resnet50 on CIFAR100
+Initial Acc = 77.42%
+___________________
+
+k = 10
+pruning time(seconds) = 1248.79
+Final Acc = 77.14%
+
+k = 20
+pruning time(seconds) = 2237.37
+Final Acc = 77.07%
+
+k = 40
+pruning time(seconds) = 2697.01
+Final Acc = 77.2
+
+k = 100
+pruning time(seconds) = 2883.12
+Final Acc = 77.16%
+
+k = 140
+pruning time(seconds) = 2882.10
+Final Acc = 77.16
+
+
+___________________________________________________
+Unstructured pruning
+___________________________________________________
+Resnet20 on CIFAR10
+Initial Acc = 92.59%
+k = 40
+
+target sparsity = 0.5
+pruning time(seconds) = 354.90
+Final Acc = 92.03%
+
+target sparsity = 0.6
+pruning time(seconds) = 418.42
+Final Acc = 91.54%
+
+target sparsity = 0.7
+pruning time(seconds) = 478.85
+Final Acc = 88.65%
+
+
+___________________________________________________
+Resnet50 on CIFAR10
+Initial Acc = 94.64%
+k = 40
+
+target sparsity = 0.5
+pruning time(seconds) = 917.76
+Final Acc = 94.36%
+
+target sparsity = 0.6
+pruning time(seconds) = 650.43
+Final Acc = 94.5%
+
+target sparsity = 0.7
+pruning time(seconds) = 526.08
+Final Acc = 94.46%
+
+
+___________________________________________________
+Resnet50 on CIFAR100
+Initial Acc = 77.41%
+k = 40
+
+target sparsity = 0.5
+pruning time(seconds) = 1985.62
+Final Acc = 76.55%
+
+target sparsity = 0.6
+pruning time(seconds) = 1332.04
+Final Acc = 76.19
+
+target sparsity = 0.7
+pruning time(seconds) = 997.31
+Final Acc = 75.03
+
+___________________________________________________
+Resnet50 on IMAGENET 1k-Mini
+Initial Acc = 75.68%
+k = 2
+
+target sparsity = 0.5
+pruning time(seconds) = 1633.73
+Final Acc = 73.28%
+
+target sparsity = 0.6
+pruning time(seconds) = 1104.07
+Final Acc = 67.55%
+
+target sparsity = 0.7
+pruning time(seconds) = 1081.86
+Final Acc = 58.22%

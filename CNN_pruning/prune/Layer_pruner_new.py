@@ -70,7 +70,7 @@ class LayerPruner:
         layer_count = 0
         for name, param in self.model.named_parameters():
             layer_name, param_name = '.'.join(name.split('.')[:-1]), name.split('.')[-1]
-            print(f"Layer no {layer_count}: Layer: {layer_name}, Param: {param_name}, Shape: {param.shape}")
+            # print(f"Layer no {layer_count}: Layer: {layer_name}, Param: {param_name}, Shape: {param.shape}")
             layer_count += 1
             if ignore_bias and param_name == 'bias':
                 continue
@@ -418,7 +418,7 @@ class LayerPruner:
         np.random.seed(self.gradseed)
         train_dataloader = DataLoader(self.train_dataset, batch_size=1, shuffle=True, num_workers=10, pin_memory=True)
         xdata = torch.zeros([self.nsamples] + self.datasize).to(memory_device)
-        print(f"Shape of xdata: {xdata.shape}. Loading data for {self.nsamples} samples.")
+        # print(f"Shape of xdata: {xdata.shape}. Loading data for {self.nsamples} samples.")
 
         for i, batch in enumerate(train_dataloader):
             xdata_i, ydata_i = batch
@@ -427,11 +427,11 @@ class LayerPruner:
             if (i + 1) >= self.nsamples:
                 break
         
-        print("Finished loading data into xdata. Sample shape:", xdata[0].shape)
-        print(f"Copying ")
+        # print("Finished loading data into xdata. Sample shape:", xdata[0].shape)
+        # print(f"Copying ")
         xdata2 = copy.deepcopy(xdata)
         total_weights_model = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
-        print(f"Total number of weights in the model: {total_weights_model}")
+        # print(f"Total number of weights in the model: {total_weights_model}")
         all_weights = []
         layer_weight_indices = {}
         layer_sizes = {}
@@ -445,7 +445,7 @@ class LayerPruner:
                 layer_sizes[name] = weight.size
                 current_index += weight.size
 
-        print(f"Total number of weights in layerparams: {current_index}")
+        # print(f"Total number of weights in layerparams: {current_index}")
 
         if not all_weights:
             raise ValueError("No weights found in layerparams for pruning.")
@@ -453,9 +453,9 @@ class LayerPruner:
         all_weights_concatenated = np.concatenate(all_weights)
         total_weights_in_layerparams = all_weights_concatenated.size
         total_prune = int(round((target_sparsity / 100.0) * total_weights_model))
-        print(f"Target sparsity: {target_sparsity}%, which corresponds to pruning {total_prune} out of {total_weights_model} weights.")
+        # print(f"Target sparsity: {target_sparsity}%, which corresponds to pruning {total_prune} out of {total_weights_model} weights.")
         max_possible_prune = sum(int(round((max_layer_sparsity / 100.0) * layer_sizes[name])) for name in layer_sizes)
-        print(f"Maximum possible prune with max_layer_sparsity of {max_layer_sparsity}%: {max_possible_prune} weights.")
+        # print(f"Maximum possible prune with max_layer_sparsity of {max_layer_sparsity}%: {max_possible_prune} weights.")
 
         if max_possible_prune < total_prune:
             print("Warning: Cannot reach target sparsity with current layerparams and per-layer sparsity caps.")
@@ -545,25 +545,25 @@ class LayerPruner:
                 prune_flag, prune_module = find_module(block_update, cur_module, name)
                 print(f"Pruning module: {cur_module} in block: {name}")
                 param_size = self.size_list[i_layer]
-                print(f"Parameter size for module {cur_module}: {param_size}")
+                # print(f"Parameter size for module {cur_module}: {param_size}")
 
                 is_depthwise = False
                 if isinstance(prune_module, nn.Conv2d):
                     is_depthwise = prune_module.groups == prune_module.in_channels == prune_module.out_channels
-                    print(f"Is depthwise convolution: {is_depthwise}")
+                    # print(f"Is depthwise convolution: {is_depthwise}")
 
                 if isinstance(prune_module, torch.nn.Conv2d):
                     d_out, d_in, k_h, k_w = param_size
-                    print(f"Conv2d layer with output channels: {d_out}, input channels: {d_in}, kernel height: {k_h}, kernel width: {k_w}")
+                    # print(f"Conv2d layer with output channels: {d_out}, input channels: {d_in}, kernel height: {k_h}, kernel width: {k_w}")
                 elif isinstance(prune_module, torch.nn.Linear):
                     d_row, d_col = param_size
-                    print(f"Linear layer with output features: {d_row}, input features: {d_col}")
+                    # print(f"Linear layer with output features: {d_row}, input features: {d_col}")
 
                 if w_warm or mask_alg != "MP":
-                    print(f"Extracting input patches for module {cur_module} using forward hook")
+                    # print(f"Extracting input patches for module {cur_module} using forward hook")
                     hook_handle = prune_module.register_forward_hook(self.getinput_hook)
                     unfold = nn.Unfold(prune_module.kernel_size, dilation=prune_module.dilation, padding=prune_module.padding, stride=prune_module.stride)
-                    print(f"Performing forward pass to collect input patches for module {cur_module}")
+                    # print(f"Performing forward pass to collect input patches for module {cur_module}")
                     self.input_buffer = []
                     forward_pass_in_batches_no_return(block_update, xdata, batch_size, device, self.nsamples)
                     inp = np.vstack([unfold(inss).permute([1, 0, 2]).flatten(1).to("cpu").numpy() for inss in self.input_buffer])
@@ -758,7 +758,7 @@ def forward_pass_in_batches(block1, block2, xdata, xdata2, batch_size, device='c
 
 def forward_pass_in_batches_no_return(block, xdata, batch_size, device='cuda', max_examples=None):
     total_examples = xdata.size(0)
-    print(f"Performing forward pass in batches with batch size {batch_size} on device {device}. Total examples: {total_examples}")
+    # print(f"Performing forward pass in batches with batch size {batch_size} on device {device}. Total examples: {total_examples}")
     if max_examples is not None:
         total_examples = min(total_examples, max_examples)
     with torch.no_grad():

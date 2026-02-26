@@ -15,7 +15,7 @@ IHTPATH = './Lagrangian-Heuristic'
 sys.path.append(IHTPATH)
 
 
-def model_factory(arch,dset_path,pretrained=False, force_model_path = False, model_path = '../WoodFisher/checkpoints/resnet20_cifar10.pt'):
+def model_factory(arch,dset_path,pretrained=True, force_model_path = False, model_path = '../WoodFisher/checkpoints/resnet20_cifar10.pt'):
 
     if arch == 'resnet20_cifar10':
 
@@ -195,22 +195,22 @@ def model_factory(arch,dset_path,pretrained=False, force_model_path = False, mod
                 modules_to_prune.append(name)
         if pretrained:
             
-            if not force_model_path:
-                path = './checkpoints/resnet50_imagenet1k_v1.pth'
-            else:
-                path = model_path
+            # if not force_model_path:
+            #     path = './checkpoints/resnet50_imagenet1k_v1.pth'
+            # else:
+            #     path = model_path
 
-            #path = 'checkpoints/resnet50-19c8e357.pth'
+            path = 'checkpoints/resnet50-19c8e357.pth'
             # path = 'checkpoints/resnet50-19c8e357.pth'
             
-            state_trained = torch.load(path,map_location=torch.device('cpu'))['state_dict']
+            state_trained = torch.load(path,map_location=torch.device('cpu'), weights_only=False)
 
             # print(state_trained.keys())
             
             # print(state_trained.keys())
             new_state_trained = model.state_dict()
             for k in state_trained:
-                key = k[7:]
+                key = k
                 if key in new_state_trained:
                     new_state_trained[key] = state_trained[k].view(new_state_trained[key].size())
                 else:
@@ -256,10 +256,10 @@ def imagenet_get_datasets(data_dir):
 @torch.no_grad()
 def get_pvec(model, params):
     state_dict = model.state_dict()
-    print("Extracting parameter vector for the following parameters:")
-    for p in params:
-        print(p)
-    print("Total number of parameters in pvec:", sum(state_dict[p].numel() for p in params))
+    # print("Extracting parameter vector for the following parameters:")
+    # for p in params:
+    #     print(p)
+    # print("Total number of parameters in pvec:", sum(state_dict[p].numel() for p in params))
     return torch.cat([
         state_dict[p].reshape(-1) for p in params
     ])
