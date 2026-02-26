@@ -7,3 +7,4 @@ checkpoints/
 Pruned_models/
 data/
 __pycache__
+venv/
